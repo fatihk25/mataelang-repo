@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SensorResource;
 use App\Http\Resources\UserResource;
 use App\Models\Sensor;
 use Illuminate\Http\Request;
@@ -50,7 +51,7 @@ class SensorController extends Controller
             return response()->json([
                 'code ' => 201,
                 'message' => 'registered',
-                'data' => $data
+                'data' => new SensorResource($data)
             ],201);
         } catch(\Exception $e) {
             return response()->json([
@@ -88,7 +89,7 @@ class SensorController extends Controller
             return response()->json([
                 'code ' => 201,
                 'message' => 'updated',
-                'data' => $data
+                'data' => new SensorResource($data)
             ],201);
         } catch(\Exception $e) {
             return response()->json([
@@ -111,7 +112,7 @@ class SensorController extends Controller
             if(!$token ) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
-            return $this->respondWithToken($token, $data);
+            return $this->respondWithToken($token, new SensorResource($data));
             
         }catch(\Exception $e){
             return response()->json([
